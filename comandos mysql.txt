@@ -1,0 +1,45 @@
+create database tarefa02;
+use tarefa02;
+
+(Criando tabelas e inserindo atributos, chaves estrangenrias e primarias)
+create table produtos(idproduto int primary key auto_increment, nome varchar(50) not null, preco varchar(30) not null, id_categoria int unique, foreign key(id_categoria) references categorias(idcategoria));
+insert into produtos values(null,"air max 300","450",1);
+insert into produtos values(null,"jordan 1","580",2);
+insert into produtos values(null,"all star","250",3);
+*
+
+create table clientes(idcliente int primary key auto_increment, nome varchar(50) not null, email varchar(40) unique, endereco varchar(50) not null);
+insert into clientes values(null,"Luiz","luiz@gmail.com","caju");
+insert into clientes values(null,"Paulo","paulo@gmail.com","tijuca");
+insert into clientes values(null,"Lebron","lakers@gmail.com","ipanema");
+*
+
+create table pedidos(idpedido int primary key auto_increment, id_cliente int unique, foreign key(id_cliente) references clientes(idcliente), data varchar(40) not null);
+insert into pedidos values(null,1,"01_10_2018");
+insert into pedidos values(null,2,"10_05_2022");
+insert into pedidos values(null,3,"03_08_2022");
+*
+
+create table categorias(idcategoria int primary key auto_increment, nome varchar(50) not null);
+insert into categorias values(null,"esportivo");
+insert into categorias values(null,"casual");
+insert into categorias values(null,"marcas");
+*
+
+create table itens_pedidos(id_pedido int unique, foreign key(id_pedido) references pedidos(idpedido), id_produto int unique, foreign key (id_produto) references produtos(idproduto), quantidade varchar(50), preco_unitario varchar(50));
+insert into itens_pedidos values(null,null,"03unid","1350");
+insert into itens_pedidos values(null,null,"10unid","30000");
+insert into itens_pedidos values(null,null,"05unid","5500");
+*
+
+(As 10 consultas no mySQL)
+select nome, email from clientes;
+select * from clientes where email like "%gmail%"
+select nome, preco from produtos inner join categorias on idproduto = id_produto;
+select data from pedidos inner join itens_pedidos on idpedido = id_pedido;
+select * from clientes where idcliente = 1;
+select * from categorias;
+select * from itens_pedidos;
+delete from clientes where idcliente = 2;
+select * from clientes;
+select * from clientes where endereco = 'caju' and email like "%gmail%";
